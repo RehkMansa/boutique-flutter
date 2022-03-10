@@ -11,6 +11,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
     var _emailController = TextEditingController(text: '');
     var _passwordController = TextEditingController(text: '');
     return GetMaterialApp(
@@ -42,6 +43,13 @@ class Login extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Forgot Password?'),
+                ),
+                Center(
+                  child: GetBuilder<LoginController>(
+                    builder: (_) => controller.isLoading
+                        ? CircularProgressIndicator()
+                        : Text('No data'),
+                  ),
                 ),
                 FormButton(
                   text: signIn,

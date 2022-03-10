@@ -7,6 +7,7 @@ class Provider extends GetConnect {
   Future<dynamic> getData(String url, {Map<String, dynamic>? params}) async {
     url = baseUrl + url;
     final response = await get(url, query: params, headers: requestHeader);
+    errorDialog('err.toString()');
     if (response.isOk && response.statusCode == 200) {
       try {
         errorDialog('err.toString()');
@@ -20,8 +21,9 @@ class Provider extends GetConnect {
 
   Future<dynamic> postData(String url, Map<String, dynamic> data) async {
     url = baseUrl + url;
-    final response = await post(url, data, headers: requestHeader);
-
+   
+    final response = await post('https://google.com', data, headers: requestHeader);
+    
     if (response.isOk && response.statusCode == 200) {
       try {
         return ApiResponse.fromJson(response.body);
