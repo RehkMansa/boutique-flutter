@@ -1,62 +1,37 @@
+import 'package:boutique/config/app.dart';
+import 'package:boutique/models/api_response.dart';
+import 'package:boutique/view/widgets/dialogs.dart';
 import 'package:get/get.dart';
 
 class Provider extends GetConnect {
-  Future<dynamic> getData(String url) async {
-    final response = await get(
-        'http://www.json-generator.com/api/json/get/cfrJFXLTAO?indent=2');
-    if (response.status.hasError) {
-      return Future.error(response.statusText!);
-    } else {
-      return response.body;
+  Future<dynamic> getData(String url, {Map<String, dynamic>? params}) async {
+    url = baseUrl + url;
+    final response = await get(url, query: params, headers: requestHeader);
+    if (response.isOk && response.statusCode == 200) {
+      try {
+        errorDialog('err.toString()');
+        return ApiResponse.fromJson(response.body);
+      } catch (err) {
+        errorDialog(err.toString());
+      }
     }
+    return Future.error(response.statusText!);
   }
 
   Future<dynamic> postData(String url, Map<String, dynamic> data) async {
-    final response = await post('url', data);
-    if (response.status.hasError) {
-      return Future.error(response.statusText!);
-    } else {
-      return response.body;
+    url = baseUrl + url;
+    final response = await post(url, data, headers: requestHeader);
+
+    if (response.isOk && response.statusCode == 200) {
+      try {
+        return ApiResponse.fromJson(response.body);
+      } catch (err) {
+        errorDialog(err.toString() + '\nError in API response data');
+        return null;
+      }
     }
-  }
-}
 
-class Request extends GetxController with StateMixin<dynamic> {
-  late final String url;
-  late final Map<String, dynamic> data;
-
-  @override
-  void onInit() {
-    super.onInit();
-    // Provider().getUser().then((value) {
-    //   change(value, status: RxStatus.success());
-    // }, onError: (error) {
-    //   change(null, status: RxStatus.error(error.toString()));
-    // });
-  }
-
-  // Future<dynamic> getData(String url) async {
-  //   final response = await get(
-  //       'http://www.json-generator.com/api/json/get/cfrJFXLTAO?indent=2');
-  //   if (response.status.hasError) {
-  //     return Future.error(response.statusText!);
-  //   } else {
-  //     return response.body;
-  //   }
-  // }
-
-  // Future<dynamic> postData(String url, Map<String, dynamic> data) async {
-  //   final response = await post('url', data);
-  //   if (response.status.hasError) {
-  //     return Future.error(response.statusText!);
-  //   } else {
-  //     return response.body;
-  //   }
-  // }
-
-  @override
-  void onClose() {
-    // TODO: implement onClose
-    super.onClose();
+    errorDialog(response.statusText!);
+    return Future.error(response.statusText!);
   }
 }

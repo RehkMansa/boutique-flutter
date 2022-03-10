@@ -42,13 +42,15 @@ class FormInput extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(24)),
             ),
             child: TextField(
-              controller: controller,
-              keyboardType: inputType,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hint,
-              ),
-            ),
+                controller: controller,
+                keyboardType: inputType,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: hint,
+                ),
+                onChanged: (text) {
+                  print(text);
+                }),
           ),
         ],
       ),
