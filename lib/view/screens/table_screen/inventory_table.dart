@@ -1,10 +1,15 @@
+import 'package:boutique/controllers/dashboard_controller.dart';
+import 'package:boutique/controllers/inventory_controller.dart';
+import 'package:boutique/view/screens/table_screen/table_cell.dart';
+import 'package:boutique/view/screens/table_screen/text_label.dart';
+import 'package:boutique/view/widgets/search_input.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class InventoryTable extends StatelessWidget {
-  const InventoryTable({Key? key}) : super(key: key);
-
+class InventoryTable extends GetView<InventoryController> {
+  var dashController = Get.find<DashboardController>();
+  InventoryTable({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,104 +25,112 @@ class InventoryTable extends StatelessWidget {
             borderRadius: BorderRadius.vertical(
                 top: Radius.circular(20), bottom: Radius.circular(20)),
           ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: DataTable(
-              columns: const <DataColumn>[
-                DataColumn(
-                  label: Expanded(
-                    child: Center(
-                      child: Text(
-                        'ITEM',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, letterSpacing: 2),
+          child: Column(
+            children: [
+              Container(
+                width: Get.width,
+                margin: EdgeInsets.symmetric(horizontal: 50),
+                child: SearchInput(
+                  controller: dashController,
+                  width: Get.width,
+                  backgroundColor: Color.fromARGB(255, 239, 242, 245),
+                  borderColor: Color.fromARGB(255, 199, 202, 206),
+                ),
+              ),
+              Container(
+                width: Get.width,
+                child: DataTable(
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                            child: TextLabel(
+                          textLabel: 'ITEM',
+                        )),
                       ),
                     ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Center(
-                      child: Text(
-                        'QUANTITY',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, letterSpacing: 2),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                            child: TextLabel(
+                          textLabel: 'Quantity',
+                        )),
                       ),
                     ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Center(
-                      child: Text(
-                        'DESCRIPTION',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, letterSpacing: 2),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                            child: TextLabel(
+                          textLabel: 'Description',
+                        )),
                       ),
                     ),
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                    child: Center(
-                      child: Text(
-                        'DATE PURCHASED',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, letterSpacing: 2),
+                    DataColumn(
+                      label: Expanded(
+                        child: Center(
+                            child: TextLabel(
+                          textLabel: 'Date Added',
+                        )),
                       ),
                     ),
-                  ),
-                ),
-              ],
-              rows: const <DataRow>[
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(
-                      Center(
-                        child: Text(
-                      '1',
-                      textAlign: TextAlign.center,
-                    ))),
-                    DataCell(
-                      Center(
-                        child: Text(
-                      '2',
-                      textAlign: TextAlign.center,
-                    ))),
-                    DataCell(Center(child: Text('3', textAlign: TextAlign.center,))),
-                    DataCell(Text('4')),
+                  ],
+                  rows: <DataRow>[
+                    DataRow(
+                      color: MaterialStateColor.resolveWith(
+                          (states) => Color.fromARGB(255, 239, 242, 245)),
+                      cells: const <DataCell>[
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                      ],
+                    ),
+                    const DataRow(
+                      cells: <DataCell>[
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                      ],
+                    ),
+                    DataRow(
+                      color: MaterialStateColor.resolveWith(
+                          (states) => Color.fromARGB(255, 239, 242, 245)),
+                      cells: const <DataCell>[
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                        DataCell(TableCellText(
+                          cellText: 'A text',
+                        )),
+                      ],
+                    ),
                   ],
                 ),
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text('1')),
-                    DataCell(Text('2')),
-                    DataCell(Text('3')),
-                    DataCell(Text('4')),
-                  ],
-                ),
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text('1')),
-                    DataCell(Text('2')),
-                    DataCell(Text('3')),
-                    DataCell(Text('4')),
-                  ],
-                ),
-                DataRow(
-                  cells: <DataCell>[
-                    DataCell(Text('1')),
-                    DataCell(Text('2')),
-                    DataCell(Text('3')),
-                    DataCell(Text('4')),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

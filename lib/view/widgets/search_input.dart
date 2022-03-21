@@ -2,20 +2,29 @@ import 'package:boutique/controllers/dashboard_controller.dart';
 import 'package:flutter/material.dart';
 
 class SearchInput extends StatelessWidget {
-
+  final double? width;
+  final Color? backgroundColor;
+  final Color borderColor;
   final DashboardController controller;
 
-  const SearchInput({Key? key, required this.controller}) : super(key: key);
+  const SearchInput(
+      {Key? key,
+      required this.controller,
+      this.width,
+      this.backgroundColor,
+      this.borderColor =  Colors.blueAccent})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 800,
+      width: (width != null) ? width : 8000,
       height: 50,
       margin: const EdgeInsets.only(top: 30, bottom: 30, right: 35),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: Colors.blueAccent),
+        color: (backgroundColor != null) ? backgroundColor : Colors.white,
+        border: Border.all(
+            color: (borderColor !=  Colors.blueAccent) ? borderColor : Colors.blueAccent),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
