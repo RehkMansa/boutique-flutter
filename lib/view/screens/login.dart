@@ -44,17 +44,21 @@ class Login extends StatelessWidget {
                   padding: EdgeInsets.all(8.0),
                   child: Text('Forgot Password?'),
                 ),
-                Center(
-                  child: GetBuilder<LoginController>(
-                    builder: (_) => controller.isLoading
-                        ? CircularProgressIndicator()
-                        : Text('No data'),
-                  ),
-                ),
                 FormButton(
                   text: signIn,
                   onPressed: () => LoginController()
                       .signIn(_emailController.text, _passwordController.text),
+                ),
+                Center(
+                  child: SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: GetBuilder<LoginController>(
+                      builder: (_) => controller.isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text('No data'),
+                    ),
+                  ),
                 ),
               ],
             ),
