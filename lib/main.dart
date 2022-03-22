@@ -1,3 +1,4 @@
+import 'package:boutique/view/screens/barcode_test.dart';
 import 'package:boutique/view/screens/dashboard.dart';
 import 'package:boutique/view/screens/table_screen/inventory_table.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,7 @@ void main() {
 
   runApp(
     GetMaterialApp(
-      home: InventoryTable(),
+      home: Dashboard(),
       debugShowCheckedModeBanner: false,
     ),
   );
