@@ -6,25 +6,33 @@ class SearchInput extends StatelessWidget {
   final Color? backgroundColor;
   final Color borderColor;
   final DashboardController controller;
+  final EdgeInsets containerMargin;
 
   const SearchInput(
       {Key? key,
       required this.controller,
       this.width,
       this.backgroundColor,
-      this.borderColor =  Colors.blueAccent})
+      this.borderColor = Colors.blueAccent,
+      this.containerMargin =
+          const EdgeInsets.only(top: 30, bottom: 30, right: 35)})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: (width != null) ? width : 8000,
+      width: (width != null) ? width : 800,
       height: 50,
-      margin: const EdgeInsets.only(top: 30, bottom: 30, right: 35),
+      margin: (containerMargin !=
+              const EdgeInsets.only(top: 30, bottom: 30, right: 35)
+          ? containerMargin
+          : const EdgeInsets.only(top: 30, bottom: 30, right: 35)),
       decoration: BoxDecoration(
         color: (backgroundColor != null) ? backgroundColor : Colors.white,
         border: Border.all(
-            color: (borderColor !=  Colors.blueAccent) ? borderColor : Colors.blueAccent),
+            color: (borderColor != Colors.blueAccent)
+                ? borderColor
+                : Colors.blueAccent),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(

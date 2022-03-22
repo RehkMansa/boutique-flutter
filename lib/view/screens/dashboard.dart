@@ -33,7 +33,9 @@ class Dashboard extends GetView<DashboardController> {
                       children: [
                         Column(children: [
                           FittedBox(
-                            child: SearchInput(controller: controller),
+                            child: SearchInput(
+                              controller: controller,
+                            ),
                           ),
                           FittedBox(
                             child: InputSection(),
