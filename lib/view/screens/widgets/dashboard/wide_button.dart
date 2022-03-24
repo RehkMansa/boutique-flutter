@@ -5,7 +5,12 @@ class WideButton extends StatelessWidget {
   final String text;
   final Function onPressed;
 
-  const WideButton({Key? key, required this.background, required this.text, required this.onPressed}) : super(key: key);
+  const WideButton(
+      {Key? key,
+      required this.background,
+      required this.text,
+      required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,13 +18,11 @@ class WideButton extends StatelessWidget {
       width: 250,
       height: 55,
       child: OutlinedButton(
-        onPressed: () {
-          //print('Next');
-        },
+        onPressed: () {},
         child: Text(text.toUpperCase()),
         style: OutlinedButton.styleFrom(
           primary: Colors.white,
-          backgroundColor: background, 
+          backgroundColor: background,
           fixedSize: const Size(double.infinity, 48),
           textStyle: const TextStyle(
             letterSpacing: 1.5,

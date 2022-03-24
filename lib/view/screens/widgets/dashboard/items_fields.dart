@@ -22,7 +22,7 @@ class ItemFields extends StatelessWidget {
           child: Text(label, style: TextStyle(color: Colors.white)),
         ),
         Container(
-          width: 290,
+          width: 300,
           padding: const EdgeInsets.all(17),
           decoration: const BoxDecoration(
             color: Colors.white70,

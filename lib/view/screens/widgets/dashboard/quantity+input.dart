@@ -21,7 +21,7 @@ class QuantityInput extends StatelessWidget {
                 const Text('Quantity', style: TextStyle(color: Colors.white)),
           ),
           Container(
-            width: 285,
+            width: 290,
             padding: const EdgeInsets.all(2),
             decoration: const BoxDecoration(
               color: Colors.white70,

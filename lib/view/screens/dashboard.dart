@@ -9,6 +9,7 @@ import 'package:boutique/view/screens/widgets/dashboard/wide_button.dart';
 import 'package:boutique/view/widgets/dialogs.dart';
 import 'package:boutique/view/widgets/numpad.dart';
 import 'package:boutique/view/widgets/search_input.dart';
+import 'package:boutique/view/widgets/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -21,13 +22,15 @@ class Dashboard extends GetView<DashboardController> {
       backgroundColor: Colors.blue,
       body: Row(
         children: <Widget>[
+          Container(
+              margin: EdgeInsets.fromLTRB(50, 30, 0, 30), child: SideBar()),
           Expanded(
             flex: 7,
             child: SingleChildScrollView(
               child: Container(
                 color: Colors.blueAccent,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Stack(
                       children: [
@@ -45,7 +48,7 @@ class Dashboard extends GetView<DashboardController> {
                               width: 800,
                               child: Center(
                                 child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
                                         padding:
