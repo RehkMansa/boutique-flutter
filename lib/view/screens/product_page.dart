@@ -75,7 +75,7 @@ class ProductPage extends StatelessWidget {
                         children: [
                           Container(
                               width: 600,
-                              alignment: Alignment.center,
+                              alignment: Alignment.centerLeft,
                               decoration: BoxDecoration(
                                   color: Colors.white70,
                                   borderRadius: BorderRadius.circular(10)),
