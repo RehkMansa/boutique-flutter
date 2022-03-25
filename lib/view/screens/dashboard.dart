@@ -30,7 +30,6 @@ class Dashboard extends GetView<DashboardController> {
               child: Container(
                 color: Colors.blueAccent,
                 child: Column(
-                  //crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Stack(
                       children: [
@@ -171,8 +170,8 @@ class Dashboard extends GetView<DashboardController> {
                       return Visibility(
                         visible: !controller.togglePrint.value,
                         child: Container(
-                          height: 750,
-                          margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          height: 800,
+                          //margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
                           color: const Color(0xFF091222),
                           child: Container(
                             alignment: Alignment.topCenter,
@@ -183,7 +182,7 @@ class Dashboard extends GetView<DashboardController> {
                       );
                     }),
                   ),
-                  Obx(() {
+                  /* Obx(() {
                     return Visibility(
                         visible: controller.togglePrint.value,
                         child: Container(
@@ -193,7 +192,7 @@ class Dashboard extends GetView<DashboardController> {
                             padding: const EdgeInsets.all(10),
                             width: 350,
                             child: PrintOutSlip()));
-                  })
+                  }) */
                 ],
               ),
             ),

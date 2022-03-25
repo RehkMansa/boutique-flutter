@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
+/* import 'package:flutter/material.dart';
+//import 'package:flutter_barcode_listener/flutter_barcode_listener.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -54,3 +54,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+ */
