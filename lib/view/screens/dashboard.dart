@@ -1,10 +1,5 @@
 import 'package:boutique/controllers/dashboard_controller.dart';
-import 'package:boutique/view/screens/widgets/dashboard/description_filed.dart';
 import 'package:boutique/view/screens/widgets/dashboard/input_section.dart';
-import 'package:boutique/view/screens/widgets/dashboard/items_fields.dart';
-import 'package:boutique/view/screens/widgets/dashboard/print_out.dart';
-import 'package:boutique/view/screens/widgets/dashboard/quantity+input.dart';
-import 'package:boutique/view/screens/widgets/dashboard/table.dart';
 import 'package:boutique/view/screens/widgets/dashboard/wide_button.dart';
 import 'package:boutique/view/widgets/dialogs.dart';
 import 'package:boutique/view/widgets/numpad.dart';
@@ -14,16 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'widgets/dashboard/floating_icon.dart';
+import 'widgets/dashboard/table.dart';
 
 class Dashboard extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
+    var _screenWidth = MediaQuery.of(context).size.width;
+    var _screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.blue,
       body: Row(
         children: <Widget>[
           Container(
-              margin: EdgeInsets.fromLTRB(50, 30, 0, 30), child: SideBar()),
+            margin: EdgeInsets.fromLTRB(50, 30, 0, 30),
+            child: SideBar(),
+          ),
           Expanded(
             flex: 7,
             child: SingleChildScrollView(
@@ -50,64 +50,39 @@ class Dashboard extends GetView<DashboardController> {
                                   //crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                        padding:
-                                            const EdgeInsets.only(right: 30),
+                                        padding: const EdgeInsets.only(right: 30),
                                         width: 430,
                                         child: Obx(() {
                                           return NumPad(
-                                              buttonColor: Colors.black87,
-                                              delete:
-                                                  controller.changeVisibility,
-                                              onSubmit: () {},
-                                              controller:
-                                                  controller.fieldText.value);
+                                              buttonColor: Colors.black87, delete: controller.changeVisibility, onSubmit: () {}, controller: controller.fieldText.value);
                                         })),
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          0, 20, 0, 30),
+                                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          WideButton(
-                                              text: 'Enter',
-                                              background: Colors.black38,
-                                              onPressed: () {}),
+                                          WideButton(text: 'Enter', background: Colors.black38, onPressed: () {}),
                                           const SizedBox(height: 12.0),
-                                          WideButton(
-                                              text: 'Make Payment',
-                                              background: Colors.black87,
-                                              onPressed: () =>
-                                                  controller.makePayment()),
+                                          WideButton(text: 'Make Payment', background: Colors.black87, onPressed: () => controller.makePayment()),
                                           const SizedBox(height: 12.0),
                                           WideButton(
                                               text: 'Print',
                                               background: Colors.black87,
                                               onPressed: () {
-                                                if (controller
-                                                        .paymentMade.value ==
-                                                    false) {
-                                                  errorDialog(
-                                                      'Please make payment before printing',
-                                                      title: 'Alert!!');
+                                                if (controller.paymentMade.value == false) {
+                                                  errorDialog('Please make payment before printing', title: 'Alert!!');
                                                 } else {
-                                                  controller.printToggle(
-                                                      value: true);
+                                                  controller.printToggle(value: true);
                                                 }
                                               }),
                                           const SizedBox(height: 12.0),
-                                          WideButton(
-                                              text: 'Next',
-                                              background: Colors.black87,
-                                              onPressed: () {}),
+                                          WideButton(text: 'Next', background: Colors.black87, onPressed: () {}),
                                         ],
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 20, left: 20),
+                                      margin: const EdgeInsets.only(top: 20, left: 20),
                                       child: Column(
                                         children: [
                                           FloatingIcon(
@@ -170,24 +145,21 @@ class Dashboard extends GetView<DashboardController> {
                       return Visibility(
                         visible: !controller.togglePrint.value,
                         child: Container(
-                          height: 800,
-                          //margin: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                          height: _screenHeight,
                           color: const Color(0xFF091222),
-                          child: Container(
-                            alignment: Alignment.topCenter,
-                            padding: const EdgeInsets.all(15),
-                            child: SizedBox(child: TableWidget()),
-                          ),
+                          alignment: Alignment.topCenter,
+                          padding: const EdgeInsets.all(15),
+                          child: const TableWidget(),
                         ),
                       );
+                      // return const ReceiptPrintOut();
                     }),
                   ),
-                  /* Obx(() {
+                  /* child: Obx(() {
                     return Visibility(
                         visible: controller.togglePrint.value,
                         child: Container(
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black)),
+                            decoration: BoxDecoration(border: Border.all(color: Colors.black)),
                             margin: const EdgeInsets.fromLTRB(20, 50, 20, 50),
                             padding: const EdgeInsets.all(10),
                             width: 350,
