@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:boutique/res/strings.dart';
+import 'package:flutter/material.dart';
 
 class AuthTitle extends StatelessWidget {
   final String title;
@@ -7,7 +7,7 @@ class AuthTitle extends StatelessWidget {
   const AuthTitle({
     Key? key,
     this.title = '',
-    this.image = 'assets/images/logo.png',
+    this.image = Str.brandImage,
   }) : super(key: key);
 
   @override
@@ -17,9 +17,7 @@ class AuthTitle extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          (image == '')
-              ? const SizedBox.shrink()
-              : Image.asset(image, width: 64, height: 54),
+          (image == '') ? const SizedBox.shrink() : Image.asset(image, width: 64, height: 54),
           (title == '')
               ? const SizedBox.shrink()
               : const Text(
