@@ -1,4 +1,5 @@
 import '../res/strings.dart';
+import '../utils/utils.dart';
 
 class Brand {
   String? brand;
@@ -11,8 +12,8 @@ class Brand {
   Brand.fromJson(Map<String, dynamic> json) {
     brand = json['brand'];
     id = json['id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = ''; //json['created_at'];
+    updatedAt = ''; //json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -26,6 +27,13 @@ class Brand {
 
   static Brand? getCategory(dynamic dataObject) {
     return dataObject != null ? Brand.fromJson(dataObject) : null;
+  }
+
+  static Map<String, dynamic> addMap(String brand) {
+    final Map<String, dynamic> data = <String, String>{};
+    data['id'] = Utils.generateDbId();
+    data['brand'] = brand;
+    return data;
   }
 
   static List<String> columns = [

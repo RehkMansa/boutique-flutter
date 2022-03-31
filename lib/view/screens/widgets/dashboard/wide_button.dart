@@ -3,22 +3,17 @@ import 'package:flutter/material.dart';
 class WideButton extends StatelessWidget {
   final Color background;
   final String text;
-  final Function onPressed;
+  final Function() onPressed;
 
-  const WideButton(
-      {Key? key,
-      required this.background,
-      required this.text,
-      required this.onPressed})
-      : super(key: key);
+  const WideButton({Key? key, required this.background, required this.text, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 250,
-      height: 55,
+      height: 60,
       child: OutlinedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(text.toUpperCase()),
         style: OutlinedButton.styleFrom(
           primary: Colors.white,

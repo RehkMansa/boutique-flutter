@@ -13,7 +13,7 @@ class LoginController extends Controller with StateMixin<dynamic> {
 
   Future<dynamic> signIn(String email, String password) async {
     var data = Admin.loginMap(email, password);
-    var db = await MySqlHelper.connection();
+    var db = await MySqlHelper().connection();
 
     try {
       Map dbAdmin = await db.getOne(table: Str.adminTable, where: data);

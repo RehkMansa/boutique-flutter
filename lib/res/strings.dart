@@ -18,10 +18,14 @@ class Str {
   static const String adminTable = tablePrefix + 'admin';
   static const String categoryTable = tablePrefix + 'category';
   static const String subcategoryTable = tablePrefix + 'subcategory';
-  static const String brandTable = tablePrefix + 'subcategory';
+  static const String brandTable = tablePrefix + 'brand';
   static const String productTable = tablePrefix + 'product';
   static const String productHistoryTable = tablePrefix + 'product_history';
   static const String priceHistoryTable = tablePrefix + 'price_history';
   static const String orderTable = tablePrefix + 'order';
   static const String orderedProductTable = tablePrefix + 'ordered_product';
+
+  static const brandImage = 'assets/images/logo.png';
+
+  static const String brandName = 'Boutique';
 }

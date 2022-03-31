@@ -1,16 +1,15 @@
 // import 'package:mysql1/mysql1.dart';
+import 'package:boutique/utils/utils.dart';
 import 'package:mysql_utils/mysql1/src/single_connection.dart';
 import 'package:mysql_utils/mysql_utils.dart';
 
 class MySqlHelper {
-  static Future connection() async {
+  Future connection() async {
     try {
-      var settings = ConnectionSettings(host: '127.0.0.1', port: 3308, user: 'root', password: 'Password@123', db: 'boutique', timeout: const Duration(seconds: 10));
-      var db = MysqlUtils(settings: settings, prefix: '', pool: true);
-
-      return db;
+      var settings = ConnectionSettings(host: '127.0.0.1', port: 3308, user: 'root', password: 'Password@123', db: 'boutique', timeout: const Duration(seconds: 60));
+      return MysqlUtils(settings: settings, prefix: '', pool: true);
     } catch (e) {
-      print(e);
+      dnd(e);
     }
   }
 

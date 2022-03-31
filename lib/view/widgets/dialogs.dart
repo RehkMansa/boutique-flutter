@@ -7,8 +7,7 @@ errorDialog(String message, {title = 'Error message'}) {
     title: title,
     radius: 0,
     titlePadding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-    titleStyle: TextStyle(
-        fontSize: 16, fontWeight: FontWeight.bold, color: errorTextColor),
+    titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: errorTextColor),
     backgroundColor: errorBackgroundColor,
     content: Row(
       children: [
@@ -27,10 +26,37 @@ errorDialog(String message, {title = 'Error message'}) {
 successAlert(String message, {title = 'Success message'}) {
   Get.defaultDialog(
     title: title,
+    radius: 8,
+    titlePadding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+    titleStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: successTextColor),
+    backgroundColor: successBackgroundColor,
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.check_circle_outline, color: successTextColor),
+        const SizedBox(width: 8),
+        Text(
+          message,
+          style: TextStyle(color: successTextColor, fontSize: 18),
+        ),
+        const SizedBox(width: 8),
+      ],
+    ),
+  );
+}
+
+actionAlert(
+  String message, {
+  title = 'Success message',
+  cancelText = 'Cancel',
+  confirmText = 'Cancel',
+  required Function() confirmAction,
+}) {
+  Get.defaultDialog(
+    title: title,
     radius: 0,
     titlePadding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-    titleStyle: TextStyle(
-        fontSize: 16, fontWeight: FontWeight.bold, color: successTextColor),
+    titleStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: successTextColor),
     backgroundColor: successBackgroundColor,
     content: Row(
       children: [
@@ -43,5 +69,29 @@ successAlert(String message, {title = 'Success message'}) {
         const SizedBox(width: 8),
       ],
     ),
+    actions: [
+      ElevatedButton(
+        onPressed: () => Get.back(),
+        child: Text(cancelText),
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(double.infinity, 48),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(50),
+          ),
+        ),
+      ),
+      ElevatedButton(
+        onPressed: confirmAction,
+        child: Text(confirmText),
+        style: ElevatedButton.styleFrom(
+          fixedSize: const Size(double.infinity, 48),
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          // shape: RoundedRectangleBorder(
+          //   // borderRadius: BorderRadius.circular(50),
+          // ),
+        ),
+      ),
+    ],
   );
 }

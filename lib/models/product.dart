@@ -1,4 +1,5 @@
 import '../res/strings.dart';
+import '../utils/utils.dart';
 
 class Product {
   String? name;
@@ -36,7 +37,7 @@ class Product {
     this.updatedAt,
   });
 
-  Product.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(var json) {
     name = json['name'];
     description = json['description'];
     productId = json['product_id'];
@@ -51,8 +52,14 @@ class Product {
     soldOut = json['sold_out'];
     active = json['active'];
     id = json['id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    // createdAt = json['created_at'];
+    // updatedAt = json['updated_at'];
+  }
+
+  Product.fromJsonToReceipt(var json) {
+    name = json.name;
+    price = json.price;
+    quantity = json.quantity;
   }
 
   Map<String, dynamic> toJson() {
@@ -83,25 +90,32 @@ class Product {
     String? category,
     String? subcategory,
     String? brand,
-    required int price,
-    required int quantity,
+    required dynamic price,
+    required dynamic quantity,
+    dynamic quantitySold,
   }) {
-    final Map<String, dynamic> data = <String, String>{};
+    try {
+      price = price != null ? int.parse(price) : null;
+      quantity = quantity != null ? int.parse(quantity) : null;
+    } catch (e) {
+      dnd(e);
+    }
+
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = Utils.generateDbId();
     data['name'] = name;
-    data['description'] = description;
+    data['description'] = description ??= '';
     data['product_id'] = getProductId(productId);
     data['category'] = category ??= '';
     data['subcategory'] = subcategory ??= '';
     data['brand'] = brand ??= '';
     data['price'] = price;
     data['quantity'] = quantity;
-    data['quantity_remaining'] = 0.toString();
-    data['quantity_sold'] = 0.toString();
-    data['has_barcode'] = (productId == null ? 0 : 1).toString();
-    data['sold_out'] = 0.toString();
-    data['active'] = 1.toString();
-    data['created_a'] = getTimestampString();
-    data['updated_at'] = getTimestampString();
+    data['quantity_remaining'] = 0;
+    data['quantity_sold'] = quantitySold ?? 0;
+    data['has_barcode'] = (productId == null ? 0 : 1);
+    data['sold_out'] = 0;
+    data['active'] = 1;
     return data;
   }
 

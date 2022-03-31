@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 
 class FormButton extends StatelessWidget {
   final String text;
-  final Function() onPressed;
+  final Function()? onPressed;
 
-  const FormButton({Key? key, this.text = 'Submit', required this.onPressed})
-      : super(key: key);
+  const FormButton({Key? key, this.text = 'Submit', this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

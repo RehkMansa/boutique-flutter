@@ -7,10 +7,10 @@ class SideBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10),
-      width: 100,
+      width: 72,
       margin: EdgeInsets.only(right: 30),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(8),
         color: Colors.black87,
       ),
       child: Align(

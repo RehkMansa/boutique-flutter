@@ -1,4 +1,5 @@
 import '../res/strings.dart';
+import '../utils/utils.dart';
 
 class Subcategory {
   String? category;
@@ -13,8 +14,8 @@ class Subcategory {
     category = json['category'];
     subcategory = json['subcategory'];
     id = json['id'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = ''; //json['created_at'];
+    updatedAt = ''; //json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
@@ -29,6 +30,14 @@ class Subcategory {
 
   static Subcategory? getSubcategory(dynamic dataObject) {
     return dataObject != null ? Subcategory.fromJson(dataObject) : null;
+  }
+
+  static Map<String, dynamic> addMap(String category, String subcategory) {
+    final Map<String, dynamic> data = <String, String>{};
+    data['id'] = Utils.generateDbId();
+    data['category'] = category;
+    data['subcategory'] = subcategory;
+    return data;
   }
 
   static List<String> columns = [

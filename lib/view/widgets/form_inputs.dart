@@ -6,13 +6,7 @@ class FormInput extends StatelessWidget {
   final String hint;
   final TextInputType inputType;
 
-  const FormInput(
-      {Key? key,
-      required this.controller,
-      this.label = '',
-      this.hint = '',
-      this.inputType = TextInputType.text})
-      : super(key: key);
+  const FormInput({Key? key, required this.controller, this.label = '', this.hint = '', this.inputType = TextInputType.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,22 +18,20 @@ class FormInput extends StatelessWidget {
             margin: const EdgeInsets.fromLTRB(8, 24, 0, 8),
             child: Text(
               label,
-              style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black54),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black54),
             ),
           ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            decoration: const BoxDecoration(
-              border: Border(
+            decoration: BoxDecoration(
+              border: const Border(
                 top: BorderSide(width: 1.0, color: Colors.blueGrey),
                 bottom: BorderSide(width: 1.0, color: Colors.blueGrey),
                 left: BorderSide(width: 1.0, color: Colors.blueGrey),
                 right: BorderSide(width: 1.0, color: Colors.blueGrey),
               ),
-              borderRadius: BorderRadius.all(Radius.circular(24)),
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
             ),
             child: TextField(
                 controller: controller,
