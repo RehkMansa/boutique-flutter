@@ -26,7 +26,7 @@ class _TableWidgetState extends State<TableWidget> {
             }
             if (index == 0) {
               return Card(
-                color: const Color(0xFFD5E0FC),
+                color: Colors.blueAccent,
                 elevation: 0,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
@@ -37,10 +37,7 @@ class _TableWidgetState extends State<TableWidget> {
                         child: Text('Qnt', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                       ),
                       Expanded(child: Text('Item', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
-                      SizedBox(width: 36),
-                      Text('Price', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      SizedBox(width: 36),
-                      Text('Del', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      Text('Price (NGN)', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                     ],
                   ),
                 ),
@@ -50,13 +47,13 @@ class _TableWidgetState extends State<TableWidget> {
                 color: const Color(0xFFD5E0FC),
                 elevation: 0,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6),
                   child: Row(
                     children: [
                       SizedBox(width: 49, child: Text(itemObject['quantity'])),
                       Expanded(child: Text(itemObject['name'])),
                       const SizedBox(width: 36),
-                      Text(itemObject['price']),
+                      Text(Utils.numberFormat.format(itemObject['price'])),
                       const SizedBox(width: 36),
                       InkWell(
                         onTap: () {
@@ -66,9 +63,9 @@ class _TableWidgetState extends State<TableWidget> {
                           dnd(controller.receiptItemsList);
                         },
                         child: const CircleAvatar(
-                          radius: 12,
+                          radius: 8,
                           backgroundColor: Colors.red,
-                          child: Icon(Icons.close, size: 14, color: Colors.white),
+                          child: Icon(Icons.close, size: 10, color: Colors.white),
                         ),
                       ),
                     ],
@@ -80,19 +77,18 @@ class _TableWidgetState extends State<TableWidget> {
                 children: [
                   const Divider(thickness: 2, color: Color(0xFFD5E0FC)),
                   Card(
-                    color: const Color(0xFFD5E0FC),
+                    color: const Color(0x00D5E0FC),
                     elevation: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-                      child: Row(
-                        children: const [
-                          Expanded(child: Text('', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16))),
-                          SizedBox(width: 36),
-                          Text('Total', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                          SizedBox(width: 36),
-                          Text('NGN 12,488', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                        ],
-                      ),
+                    child: Row(
+                      children: [
+                        const Expanded(child: Text('', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white))),
+                        const Text('Total :', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
+                        const SizedBox(width: 36),
+                        Obx(() {
+                          return Text('NGN ${Utils.numberFormat.format(controller.totalReceiptPrice.value)}',
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white));
+                        }),
+                      ],
                     ),
                   ),
                 ],

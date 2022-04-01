@@ -1,6 +1,8 @@
+import 'package:intl/intl.dart';
+
 class Utils {
   static int count = 0;
-
+  static final NumberFormat numberFormat = NumberFormat("#,##0", "en_US");
   static int getTimestamp() {
     return DateTime.now().millisecondsSinceEpoch;
   }
