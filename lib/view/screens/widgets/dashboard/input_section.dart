@@ -9,25 +9,24 @@ class InputSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var dashboardController = Get.find<DashboardController>();
-    var quantityInputController = TextEditingController(text: '1');
     return Column(
       children: [
-        Container(
+        SizedBox(
           width: 800,
           child: Row(
             children: [
               Obx(() => ItemFields(label: 'Name', text: dashboardController.itemName.value.toString())),
-              SizedBox(width: 16.0),
+              const SizedBox(width: 16.0),
               Obx(() => ItemFields(label: 'ID', text: dashboardController.itemId.value.toString())),
             ],
           ),
         ),
-        Container(
+        SizedBox(
           width: 800,
           child: Row(
             children: [
               Obx(() => ItemFields(label: 'Price', text: dashboardController.itemPrice.value.toString())),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: SizedBox(
@@ -47,52 +46,54 @@ class InputSection extends StatelessWidget {
                         color: Colors.white70,
                         borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
                       ),
-                      child: TextField(
-                        controller: quantityInputController,
-                        textAlign: TextAlign.center,
-                        decoration: InputDecoration(
-                            suffixIcon: Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundColor: Colors.black12,
-                                //radius: 30,
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.add,
-                                    size: 15,
+                      child: Obx(
+                        () => TextField(
+                          controller: dashboardController.quantityInputController.value,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                              suffixIcon: Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.black12,
+                                  //radius: 30,
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.add,
+                                      size: 15,
+                                      color: Colors.black87,
+                                    ),
+                                    onPressed: () {
+                                      var currentQuantity = int.parse(dashboardController.quantityInputController.value.text);
+                                      dashboardController.quantityInputController.value.text = (++currentQuantity).toString();
+                                      dashboardController.itemQuantity.value = currentQuantity;
+                                    },
+                                  ),
+                                ),
+                              ),
+                              prefixIcon: Padding(
+                                padding: const EdgeInsets.all(2),
+                                child: CircleAvatar(
+                                  radius: 15,
+                                  backgroundColor: Colors.black12,
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.remove,
+                                      size: 15,
+                                    ),
                                     color: Colors.black87,
+                                    onPressed: () {
+                                      var currentQuantity = int.parse(dashboardController.quantityInputController.value.text);
+                                      if (currentQuantity > 1) {
+                                        dashboardController.quantityInputController.value.text = (--currentQuantity).toString();
+                                      }
+                                      dashboardController.itemQuantity.value = currentQuantity;
+                                    },
                                   ),
-                                  onPressed: () {
-                                    var currentQuantity = int.parse(quantityInputController.text);
-                                    quantityInputController.text = (++currentQuantity).toString();
-                                    dashboardController.itemQuantity.value = currentQuantity;
-                                  },
                                 ),
                               ),
-                            ),
-                            prefixIcon: Padding(
-                              padding: const EdgeInsets.all(2),
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundColor: Colors.black12,
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.remove,
-                                    size: 15,
-                                  ),
-                                  color: Colors.black87,
-                                  onPressed: () {
-                                    var currentQuantity = int.parse(quantityInputController.text);
-                                    if (currentQuantity > 1) {
-                                      quantityInputController.text = (--currentQuantity).toString();
-                                    }
-                                    dashboardController.itemQuantity.value = currentQuantity;
-                                  },
-                                ),
-                              ),
-                            ),
-                            border: InputBorder.none),
+                              border: InputBorder.none),
+                        ),
                       ),
                     )
                   ]),

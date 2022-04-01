@@ -1,19 +1,33 @@
 import 'package:boutique/controllers/dashboard_controller.dart';
 import 'package:boutique/models/product.dart';
+import 'package:boutique/view/screens/printer/demo.dart';
+import 'package:boutique/view/screens/printer/service.dart';
+import 'package:boutique/view/screens/printer/webview_helper.dart';
 import 'package:boutique/view/screens/widgets/dashboard/input_section.dart';
 import 'package:boutique/view/screens/widgets/dashboard/wide_button.dart';
-import 'package:boutique/view/widgets/dialogs.dart';
 import 'package:boutique/view/widgets/numpad.dart';
 import 'package:boutique/view/widgets/search_input.dart';
 import 'package:boutique/view/widgets/sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pos_printer_manager/models/usb_printer.dart';
+import 'package:pos_printer_manager/pos_printer_manager.dart';
+import 'package:pos_printer_manager/services/usb_printer_manager.dart';
+import 'package:webcontent_converter/webcontent_converter.dart';
 
+import '../../res/strings.dart';
+import '../widgets/dialogs.dart';
 import 'widgets/dashboard/floating_icon.dart';
 import 'widgets/dashboard/table.dart';
 
 class Dashboard extends GetView<DashboardController> {
-  const Dashboard({Key? key}) : super(key: key);
+  var _manager;
+
+  var _printer;
+
+  var showLoading = false.obs;
+
+  Dashboard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,26 +87,29 @@ class Dashboard extends GetView<DashboardController> {
                                                 controller.populateItemFieldsFromEnter('');
                                               }),
                                           const SizedBox(height: 12.0),
-                                          WideButton(text: 'Make Payment', background: Colors.black87, onPressed: () => controller.makePayment()),
+                                          WideButton(
+                                              text: 'Payment Mode',
+                                              background: Colors.black87,
+                                              onPressed: () {
+                                                controller.makePayment();
+                                              }),
                                           const SizedBox(height: 12.0),
                                           WideButton(
-                                              text: 'Print',
+                                              text: 'Print Preview',
                                               background: Colors.black87,
                                               onPressed: () {
                                                 if (controller.paymentMade.value == false) {
-                                                  errorDialog('Please make payment before printing', title: 'Alert!!');
+                                                  errorDialog('Please select mode of payment before printing receipt', title: 'Alert!!');
                                                 } else {
-                                                  controller.printToggle(value: true);
+                                                  _scan();
                                                 }
                                               }),
                                           const SizedBox(height: 12.0),
                                           WideButton(
-                                              text: 'Next',
-                                              background: Colors.black87,
-                                              onPressed: () {
-                                                controller.changeVisibility(false);
-                                                controller.populateItemFieldsFromEnter('');
-                                              }),
+                                            text: 'Cancel Print',
+                                            background: Colors.black87,
+                                            onPressed: () => controller.showPrintPreview.value = false,
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -100,20 +117,55 @@ class Dashboard extends GetView<DashboardController> {
                                       margin: const EdgeInsets.only(top: 20, left: 20),
                                       child: Column(
                                         children: [
-                                          FloatingIcon(
-                                            icon: const Icon(Icons.money),
-                                            onPressed: () {},
-                                            controller: controller,
+                                          Obx(
+                                            () => FloatingIcon(
+                                                icon: const Icon(Icons.money),
+                                                onPressed: () {
+                                                  controller.selectPaymentMethod('cash');
+                                                },
+                                                controller: controller,
+                                                selected: controller.selectedCash.value),
                                           ),
-                                          FloatingIcon(
-                                            icon: const Icon(Icons.credit_card),
-                                            onPressed: () {},
-                                            controller: controller,
+                                          Obx(
+                                            () => FloatingIcon(
+                                                icon: const Icon(Icons.credit_card),
+                                                onPressed: () {
+                                                  controller.selectPaymentMethod('card');
+                                                },
+                                                controller: controller,
+                                                selected: controller.selectedCard.value),
                                           ),
-                                          FloatingIcon(
-                                            icon: const Icon(Icons.account_balance),
-                                            onPressed: () {},
-                                            controller: controller,
+                                          Obx(
+                                            () => FloatingIcon(
+                                                icon: const Icon(Icons.account_balance),
+                                                onPressed: () {
+                                                  controller.selectPaymentMethod('transfer');
+                                                },
+                                                controller: controller,
+                                                selected: controller.selectedTransfer.value),
+                                          ),
+                                          Container(
+                                            width: 50,
+                                            height: 2,
+                                            margin: const EdgeInsets.symmetric(vertical: 8),
+                                            color: Colors.black45,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Container(
+                                              padding: const EdgeInsets.all(5),
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xaaff0000),
+                                                borderRadius: BorderRadius.circular(50),
+                                              ),
+                                              child: IconButton(
+                                                color: Colors.white,
+                                                icon: const Icon(Icons.delete),
+                                                onPressed: () {
+                                                  controller.clearPurchase();
+                                                },
+                                              ),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -147,9 +199,6 @@ class Dashboard extends GetView<DashboardController> {
                                             itemCount: controller.searchResultList.value.length,
                                             itemBuilder: (context, index) {
                                               var itemObject = Product.fromJson(controller.searchResultList.value[index]);
-                                              // if (controller.searchResultList.value.length == 1) {
-                                              //   controller.populateItemFields(itemObject);
-                                              // }
                                               return GestureDetector(
                                                 onTap: () => controller.populateItemFields(itemObject),
                                                 child: Card(
@@ -181,47 +230,169 @@ class Dashboard extends GetView<DashboardController> {
           ),
           Expanded(
             flex: 3,
-            child: Container(
-              decoration: BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
-              height: double.infinity,
-              child: Container(
-                color: const Color(0xDE091222),
-                child: Obx(() {
-                  return Visibility(
-                    visible: !controller.togglePrint.value,
+            child: Stack(
+              children: [
+                Container(
+                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
+                  height: double.infinity,
+                  child: Container(
+                    color: const Color(0xDE091222),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          height: 100,
-                          padding: EdgeInsets.only(top: 16, left: 8),
+                          height: 130,
+                          padding: const EdgeInsets.only(top: 16, left: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const [
-                              Text('Boutique', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.white60)),
-                              SizedBox(height: 4),
-                              Text('List of purchase items and their prices', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white70)),
+                            children: [
+                              Row(
+                                children: const [
+                                  CircleAvatar(backgroundImage: AssetImage(Str.brandImage), radius: 20),
+                                  SizedBox(width: 8),
+                                  Text('Boutique', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.blue)),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              const Text('List of purchase items and their prices', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white70)),
                             ],
                           ),
                         ),
                         Container(
-                          height: _screenHeight - 100,
+                          height: _screenHeight - 130,
                           width: double.infinity,
-                          // color: const Color(0xFF091222),
                           alignment: Alignment.topCenter,
                           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                          child: TableWidget(),
+                          child: const TableWidget(),
                         ),
                       ],
                     ),
-                  );
-                  // return const ReceiptPrintOut();
-                }),
-              ),
+                  ),
+                ),
+                Positioned(
+                  child: Obx(
+                    () => Visibility(
+                      visible: controller.showPrintPreview.value,
+                      child: Container(
+                        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
+                        height: double.infinity,
+                        child: Container(
+                          color: const Color(0xFFffffff),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  // height: _screenHeight,
+                                  width: double.infinity,
+                                  color: const Color(0xFFffffff),
+                                  alignment: Alignment.topCenter,
+                                  padding: const EdgeInsets.only(left: 100),
+                                  child: !controller.data.value.isEmpty
+                                      ? Image.memory(
+                                          controller.bytes.value,
+                                          width: double.infinity,
+                                          height: double.infinity,
+                                          // centerSlice: new Rect.fromLTRB(6.0, 0.0, 16.0, 51.0)
+                                        )
+                                      : Image.asset('assets/images/receipt.png'),
+                                ),
+                              ),
+                              Center(
+                                  child: WideButton(
+                                background: Colors.blueAccent,
+                                text: 'Print Now',
+                                onPressed: () {
+                                  if (_manager != null) {
+                                    print("isConnected ${_manager!.isConnected}");
+                                    _manager!.writeBytes(controller.data.value, isDisconnect: false);
+                                  }
+                                  controller.showPrintPreview.value = false;
+                                  controller.receiptItemsList.value.clear();
+                                  controller.searchResultList.value.clear();
+                                  controller.receiptItemsList.add('item');
+                                },
+                              )),
+                              const SizedBox(height: 4)
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  child: Obx(
+                    () => Visibility(
+                      visible: showLoading.value,
+                      child: Container(
+                        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
+                        child: Container(
+                          height: double.infinity,
+                          color: const Color(0xAA000000),
+                          child: const Center(
+                            child: Text(
+                              'Loading print preview...',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  _scan() async {
+    showLoading.value = true;
+    var printers = await USBPrinterManager.discover();
+    printers.forEach((printer) {
+      if (printer.name == 'XP-58') {
+        _printer = printer;
+        _connect(printer);
+        _startPrinter();
+      }
+    });
+  }
+
+  _connect(USBPrinter printer) async {
+    var paperSize = PaperSize.mm58;
+    var profile = await CapabilityProfile.load();
+    var manager = USBPrinterManager(printer, paperSize, profile);
+    await manager.connect();
+
+    _manager = manager;
+    _printer.connected = true;
+  }
+
+  _startPrinter() async {
+    // if (controller.data.value.isEmpty) {
+    final content = Demo.getPrintOut2(controller.receiptItemsList);
+    var bytes = await WebcontentConverter.contentToImage(
+      content: content,
+      executablePath: WebViewHelper.executablePath(),
+    );
+    var service = ESCPrinterService(bytes);
+    var data = await service.getBytes();
+    controller.data.value = data;
+    controller.bytes.value = bytes;
+    controller.showPrintPreview.value = true;
+    showLoading.value = false;
+    // }
+    //
+    // if (_manager != null) {
+    //   print("isConnected ${_manager!.isConnected}");
+    //   // _manager!.writeBytes(controller.data.value, isDisconnect: false);
+    // }
   }
 }
