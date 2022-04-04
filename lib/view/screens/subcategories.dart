@@ -28,7 +28,7 @@ class Subcategories extends GetView<CategoryController> {
           Container(
             child: Row(
               children: [
-                const SideBar(),
+                SideBar(),
                 Expanded(
                   child: Container(
                     height: double.infinity,
@@ -41,11 +41,13 @@ class Subcategories extends GetView<CategoryController> {
                       children: [
                         ScreenTitle(
                           title: 'Subcategories',
-                          buttonAction: () => subcategoryController.toggleCard(),
+                          buttonAction: () =>
+                              subcategoryController.toggleCard(),
                           showButton: true,
                         ),
                         ScreenSearch(
-                          searchFunction: (value) => subcategoryController.searchCategory(value),
+                          searchFunction: (value) =>
+                              subcategoryController.searchCategory(value),
                         ),
                         SingleChildScrollView(
                           child: SizedBox(
@@ -89,10 +91,14 @@ class Subcategories extends GetView<CategoryController> {
                           children: [
                             const Text(
                               'ADD CATEGORY',
-                              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
                             ),
                             IconButton(
-                              onPressed: () => subcategoryController.toggleCard(),
+                              onPressed: () =>
+                                  subcategoryController.toggleCard(),
                               icon: const Icon(
                                 Icons.close,
                                 color: Colors.white,
@@ -113,7 +119,9 @@ class Subcategories extends GetView<CategoryController> {
                           inputType: TextInputType.text,
                         ),
                         FormButton(onPressed: () {
-                          subcategoryController.addCategory(categoryInputController.text, subcategoryInputController.text);
+                          subcategoryController.addCategory(
+                              categoryInputController.text,
+                              subcategoryInputController.text);
                         })
                       ],
                     )),
@@ -129,7 +137,8 @@ class Subcategories extends GetView<CategoryController> {
     int sn = 1;
     return subcategoryController.itemList.map((element) {
       Subcategory cat = Subcategory.fromJson(element);
-      return tableData((sn++).toString(), cat.category.toString(), cat.subcategory.toString(), cat.id.toString());
+      return tableData((sn++).toString(), cat.category.toString(),
+          cat.subcategory.toString(), cat.id.toString());
     }).toList();
   }
 
@@ -139,14 +148,16 @@ class Subcategories extends GetView<CategoryController> {
       child: Text(
         text.toUpperCase(),
         textAlign: center ? TextAlign.center : TextAlign.left,
-        style: const TextStyle(fontWeight: FontWeight.w800, letterSpacing: 2, fontSize: 18),
+        style: const TextStyle(
+            fontWeight: FontWeight.w800, letterSpacing: 2, fontSize: 18),
       ),
     ));
   }
 
   DataRow tableData(String text1, String text2, String text3, String id) {
     return DataRow(
-      color: MaterialStateColor.resolveWith((states) => const Color.fromARGB(255, 255, 255, 255)),
+      color: MaterialStateColor.resolveWith(
+          (states) => const Color.fromARGB(255, 255, 255, 255)),
       cells: <DataCell>[
         DataCell(
           Text(

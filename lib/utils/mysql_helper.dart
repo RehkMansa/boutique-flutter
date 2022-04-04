@@ -6,7 +6,13 @@ import 'package:mysql_utils/mysql_utils.dart';
 class MySqlHelper {
   Future connection() async {
     try {
-      var settings = ConnectionSettings(host: '127.0.0.1', port: 3308, user: 'root', password: 'Password@123', db: 'boutique', timeout: const Duration(seconds: 60));
+      var settings = ConnectionSettings(
+          host: '127.0.0.1',
+          port: 3306,
+          user: 'rehkmansa',
+          password: 'silentidiots25',
+          db: 'boutique',
+          timeout: const Duration(seconds: 60));
       return MysqlUtils(settings: settings, prefix: '', pool: true);
     } catch (e) {
       dnd(e);

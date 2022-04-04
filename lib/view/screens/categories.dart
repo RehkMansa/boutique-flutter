@@ -27,7 +27,7 @@ class Categories extends GetView<CategoryController> {
           Container(
             child: Row(
               children: [
-                const SideBar(),
+                 SideBar(),
                 Expanded(
                   child: Container(
                     height: double.infinity,

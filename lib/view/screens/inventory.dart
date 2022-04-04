@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
+import 'my_widgets/side_bar.dart';
+
 class InventoryScreen extends GetView<InventoryController> {
   const InventoryScreen({Key? key}) : super(key: key);
 
@@ -14,11 +16,12 @@ class InventoryScreen extends GetView<InventoryController> {
   Widget build(BuildContext context) {
     var dashController = Get.find<DashboardController>();
     return Scaffold(
-      backgroundColor: Colors.blue,
+      backgroundColor: Colors.white,
       body: Align(
         alignment: Alignment.center,
         child: Container(
-          margin: const EdgeInsets.all(35),
+          height: double.infinity,
+          // margin: const EdgeInsets.all(35),
           child: Row(
             children: [
               SideBar(),
@@ -26,18 +29,21 @@ class InventoryScreen extends GetView<InventoryController> {
                 flex: 9,
                 child: Container(
                   width: Get.width,
+                  // padding: EdgeInsets.only(left: 30),
                   height: double.infinity,
                   decoration: const BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.vertical(top: Radius.circular(20), bottom: Radius.circular(20)),
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(20), bottom: Radius.circular(20)),
                   ),
                   child: Column(
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                          color: Color(0xFF091222),
-                          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
+                            border: Border(
+                                bottom: BorderSide(
+                          color: Color(0xFF021E49),
+                        ))),
                         width: Get.width,
                         child: Row(
                           children: [
@@ -46,8 +52,13 @@ class InventoryScreen extends GetView<InventoryController> {
                               child: Padding(
                                 padding: EdgeInsets.only(left: 50),
                                 child: Text(
-                                  'INVENTORY',
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, letterSpacing: 2, fontSize: 20),
+                                  'Reports',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 2,
+                                    fontSize: 38,
+                                  ),
                                 ),
                               ),
                             ),
@@ -62,8 +73,10 @@ class InventoryScreen extends GetView<InventoryController> {
                                 controller: dashController,
                                 width: Get.width,
                                 // backgroundColor:
-                                borderColor: const Color.fromARGB(255, 199, 202, 206),
-                                containerMargin: EdgeInsets.all(15), triggerSearch: (String? val) {},
+                                borderColor:
+                                    const Color.fromARGB(255, 199, 202, 206),
+                                containerMargin: EdgeInsets.all(15),
+                                triggerSearch: (String? val) {},
                               ),
                             ),
                           ],

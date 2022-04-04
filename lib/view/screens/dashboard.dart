@@ -1,5 +1,6 @@
 import 'package:boutique/controllers/dashboard_controller.dart';
 import 'package:boutique/models/product.dart';
+import 'package:boutique/utils/utils.dart';
 import 'package:boutique/view/screens/printer/demo.dart';
 import 'package:boutique/view/screens/printer/service.dart';
 import 'package:boutique/view/screens/printer/webview_helper.dart';
@@ -39,7 +40,7 @@ class Dashboard extends GetView<DashboardController> {
         children: <Widget>[
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: const SideBar(),
+            child: DashboardSideBar(),
           ),
           Expanded(
             flex: 7,
@@ -67,24 +68,36 @@ class Dashboard extends GetView<DashboardController> {
                                 child: Row(
                                   children: [
                                     Container(
-                                        padding: const EdgeInsets.only(right: 30),
+                                        padding:
+                                            const EdgeInsets.only(right: 30),
                                         width: 430,
                                         child: Obx(() {
                                           return NumPad(
-                                              buttonColor: Colors.black87, delete: controller.changeVisibility, onSubmit: () {}, controller: controller.fieldText.value);
+                                              buttonColor: Colors.black87,
+                                              delete:
+                                                  controller.changeVisibility,
+                                              onSubmit: () {},
+                                              controller:
+                                                  controller.fieldText.value);
                                         })),
                                     Padding(
-                                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 20, 0, 30),
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
                                           WideButton(
                                               text: 'Enter',
                                               background: Colors.black38,
                                               onPressed: () {
-                                                controller.changeVisibility(false);
-                                                controller.populateItemFieldsFromEnter('');
+                                                controller
+                                                    .changeVisibility(false);
+                                                controller
+                                                    .populateItemFieldsFromEnter(
+                                                        '');
                                               }),
                                           const SizedBox(height: 12.0),
                                           WideButton(
@@ -98,56 +111,75 @@ class Dashboard extends GetView<DashboardController> {
                                               text: 'Print Preview',
                                               background: Colors.black87,
                                               onPressed: () {
-                                                if (controller.paymentMade.value == false) {
-                                                  errorDialog('Please select mode of payment before printing receipt', title: 'Alert!!');
+                                                if (controller
+                                                        .paymentMade.value ==
+                                                    false) {
+                                                  errorDialog(
+                                                      'Please select mode of payment before printing receipt',
+                                                      title: 'Alert!!');
                                                 } else {
                                                   _scan();
+                                                  controller.addOrder();
                                                 }
                                               }),
                                           const SizedBox(height: 12.0),
                                           WideButton(
                                             text: 'Cancel Print',
                                             background: Colors.black87,
-                                            onPressed: () => controller.showPrintPreview.value = false,
+                                            onPressed: () => controller
+                                                .showPrintPreview.value = false,
                                           ),
                                         ],
                                       ),
                                     ),
                                     Container(
-                                      margin: const EdgeInsets.only(top: 20, left: 20),
+                                      margin: const EdgeInsets.only(
+                                          top: 20, left: 20),
                                       child: Column(
                                         children: [
                                           Obx(
                                             () => FloatingIcon(
                                                 icon: const Icon(Icons.money),
                                                 onPressed: () {
-                                                  controller.selectPaymentMethod('cash');
+                                                  controller
+                                                      .selectPaymentMethod(
+                                                          'cash');
                                                 },
                                                 controller: controller,
-                                                selected: controller.selectedCash.value),
+                                                selected: controller
+                                                    .selectedCash.value),
                                           ),
                                           Obx(
                                             () => FloatingIcon(
-                                                icon: const Icon(Icons.credit_card),
+                                                icon: const Icon(
+                                                    Icons.credit_card),
                                                 onPressed: () {
-                                                  controller.selectPaymentMethod('card');
+                                                  controller
+                                                      .selectPaymentMethod(
+                                                          'card');
                                                 },
                                                 controller: controller,
-                                                selected: controller.selectedCard.value),
+                                                selected: controller
+                                                    .selectedCard.value),
                                           ),
                                           Obx(
                                             () => FloatingIcon(
-                                                icon: const Icon(Icons.account_balance),
+                                                icon: const Icon(
+                                                    Icons.account_balance),
                                                 onPressed: () {
-                                                  controller.selectPaymentMethod('transfer');
+                                                  controller
+                                                      .selectPaymentMethod(
+                                                          'transfer');
                                                 },
                                                 controller: controller,
-                                                selected: controller.selectedTransfer.value),
+                                                selected: controller
+                                                    .selectedTransfer.value),
                                           ),
                                           Container(
                                             width: 50,
                                             height: 2,
-                                            margin: const EdgeInsets.symmetric(vertical: 8),
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 8),
                                             color: Colors.black45,
                                           ),
                                           Padding(
@@ -156,7 +188,8 @@ class Dashboard extends GetView<DashboardController> {
                                               padding: const EdgeInsets.all(5),
                                               decoration: BoxDecoration(
                                                 color: const Color(0xaaff0000),
-                                                borderRadius: BorderRadius.circular(50),
+                                                borderRadius:
+                                                    BorderRadius.circular(50),
                                               ),
                                               child: IconButton(
                                                 color: Colors.white,
@@ -188,7 +221,9 @@ class Dashboard extends GetView<DashboardController> {
                                     child: Container(
                                         width: 1000,
                                         height: 200,
-                                        padding: EdgeInsets.only(left: _screenWidth / 28, right: 600),
+                                        padding: EdgeInsets.only(
+                                            left: _screenWidth / 28,
+                                            right: 600),
                                         decoration: const BoxDecoration(
                                           borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(24),
@@ -196,18 +231,28 @@ class Dashboard extends GetView<DashboardController> {
                                           ),
                                         ),
                                         child: ListView.builder(
-                                            itemCount: controller.searchResultList.value.length,
+                                            itemCount: controller
+                                                .searchResultList.value.length,
                                             itemBuilder: (context, index) {
-                                              var itemObject = Product.fromJson(controller.searchResultList.value[index]);
+                                              var itemObject = Product.fromJson(
+                                                  controller.searchResultList
+                                                      .value[index]);
                                               return GestureDetector(
-                                                onTap: () => controller.populateItemFields(itemObject),
+                                                onTap: () => controller
+                                                    .populateItemFields(
+                                                        itemObject),
                                                 child: Card(
                                                   child: Padding(
-                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 8.0,
+                                                        vertical: 4),
                                                     child: Row(
                                                       children: [
-                                                        Text(itemObject.productId!),
-                                                        const SizedBox(width: 36),
+                                                        Text(itemObject
+                                                            .productId!),
+                                                        const SizedBox(
+                                                            width: 36),
                                                         Text(itemObject.name!),
                                                       ],
                                                     ),
@@ -233,7 +278,10 @@ class Dashboard extends GetView<DashboardController> {
             child: Stack(
               children: [
                 Container(
-                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/bga.png'),
+                          fit: BoxFit.cover)),
                   height: double.infinity,
                   child: Container(
                     color: const Color(0xDE091222),
@@ -248,13 +296,25 @@ class Dashboard extends GetView<DashboardController> {
                             children: [
                               Row(
                                 children: const [
-                                  CircleAvatar(backgroundImage: AssetImage(Str.brandImage), radius: 20),
+                                  CircleAvatar(
+                                      backgroundImage:
+                                          AssetImage(Str.brandImage),
+                                      radius: 20),
                                   SizedBox(width: 8),
-                                  Text('Boutique', style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold, color: Colors.blue)),
+                                  Text('Boutique',
+                                      style: TextStyle(
+                                          fontSize: 35,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blue)),
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              const Text('List of purchase items and their prices', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white70)),
+                              const Text(
+                                  'List of purchase items and their prices',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white70)),
                             ],
                           ),
                         ),
@@ -262,7 +322,8 @@ class Dashboard extends GetView<DashboardController> {
                           height: _screenHeight - 130,
                           width: double.infinity,
                           alignment: Alignment.topCenter,
-                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8, horizontal: 8),
                           child: const TableWidget(),
                         ),
                       ],
@@ -274,7 +335,10 @@ class Dashboard extends GetView<DashboardController> {
                     () => Visibility(
                       visible: controller.showPrintPreview.value,
                       child: Container(
-                        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/bga.png'),
+                                fit: BoxFit.cover)),
                         height: double.infinity,
                         child: Container(
                           color: const Color(0xFFffffff),
@@ -295,7 +359,8 @@ class Dashboard extends GetView<DashboardController> {
                                           height: double.infinity,
                                           // centerSlice: new Rect.fromLTRB(6.0, 0.0, 16.0, 51.0)
                                         )
-                                      : Image.asset('assets/images/receipt.png'),
+                                      : Image.asset(
+                                          'assets/images/receipt.png'),
                                 ),
                               ),
                               Center(
@@ -304,8 +369,10 @@ class Dashboard extends GetView<DashboardController> {
                                 text: 'Print Now',
                                 onPressed: () {
                                   if (_manager != null) {
-                                    print("isConnected ${_manager!.isConnected}");
-                                    _manager!.writeBytes(controller.data.value, isDisconnect: false);
+                                    print(
+                                        "isConnected ${_manager!.isConnected}");
+                                    _manager!.writeBytes(controller.data.value,
+                                        isDisconnect: false);
                                   }
                                   controller.showPrintPreview.value = false;
                                   controller.receiptItemsList.value.clear();
@@ -326,7 +393,10 @@ class Dashboard extends GetView<DashboardController> {
                     () => Visibility(
                       visible: showLoading.value,
                       child: Container(
-                        decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/images/bga.png'), fit: BoxFit.cover)),
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/bga.png'),
+                                fit: BoxFit.cover)),
                         child: Container(
                           height: double.infinity,
                           color: const Color(0xAA000000),
@@ -356,16 +426,18 @@ class Dashboard extends GetView<DashboardController> {
   _scan() async {
     showLoading.value = true;
     var printers = await USBPrinterManager.discover();
-    printers.forEach((printer) {
-      if (printer.name == 'XP-58') {
+    dnd(printers);
+    _startPrinter();
+    /* for (var printer in printers) {
+      if (printer.name == 'XP-80') {
         _printer = printer;
         _connect(printer);
-        _startPrinter();
+      _startPrinter();        
       }
-    });
+    } */
   }
 
-  _connect(USBPrinter printer) async {
+  /* _connect(USBPrinter printer) async {
     var paperSize = PaperSize.mm58;
     var profile = await CapabilityProfile.load();
     var manager = USBPrinterManager(printer, paperSize, profile);
@@ -373,7 +445,7 @@ class Dashboard extends GetView<DashboardController> {
 
     _manager = manager;
     _printer.connected = true;
-  }
+  } */
 
   _startPrinter() async {
     // if (controller.data.value.isEmpty) {

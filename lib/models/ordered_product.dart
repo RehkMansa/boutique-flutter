@@ -1,3 +1,5 @@
+import 'package:boutique/utils/utils.dart';
+
 import '../res/strings.dart';
 
 class OrderedProduct {
@@ -9,7 +11,14 @@ class OrderedProduct {
   String? createdAt;
   String? updatedAt;
 
-  OrderedProduct({this.id, this.order, this.product, this.quantity, this.amount, this.createdAt, this.updatedAt});
+  OrderedProduct(
+      {this.id,
+      this.order,
+      this.product,
+      this.quantity,
+      this.amount,
+      this.createdAt,
+      this.updatedAt});
 
   OrderedProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -30,6 +39,21 @@ class OrderedProduct {
     data['amount'] = amount;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+
+  static Map<String, dynamic> addOrderedProductMap({
+    required String order,
+    String? product,
+    int? quantity,
+    int? amount,
+  }) {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = Utils.generateDbId();
+    data['order'] = order;
+    data['product'] = product;
+    data['quantity'] = quantity;
+    data['amount'] = amount;
     return data;
   }
 
@@ -54,7 +78,8 @@ class OrderedProduct {
   static String createTableSQL() {
     String sql = 'CREATE TABLE ';
     sql += table();
-    sql += ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, order TEXT, product TEXT, amount INTEGER, created_at TEXT, updated_at TEXT)';
+    sql +=
+        ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, order TEXT, product TEXT, amount INTEGER, created_at TEXT, updated_at TEXT)';
     return sql;
   }
 }

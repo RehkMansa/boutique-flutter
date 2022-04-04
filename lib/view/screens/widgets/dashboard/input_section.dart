@@ -1,4 +1,5 @@
 import 'package:boutique/controllers/dashboard_controller.dart';
+import 'package:boutique/utils/utils.dart';
 import 'package:boutique/view/screens/widgets/dashboard/items_fields.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,13 @@ class InputSection extends StatelessWidget {
           width: 800,
           child: Row(
             children: [
-              Obx(() => ItemFields(label: 'Name', text: dashboardController.itemName.value.toString())),
+              Obx(() => ItemFields(
+                  label: 'Name',
+                  text: dashboardController.itemName.value.toString())),
               const SizedBox(width: 16.0),
-              Obx(() => ItemFields(label: 'ID', text: dashboardController.itemId.value.toString())),
+              Obx(() => ItemFields(
+                  label: 'ID',
+                  text: dashboardController.itemId.value.toString())),
             ],
           ),
         ),
@@ -25,7 +30,9 @@ class InputSection extends StatelessWidget {
           width: 800,
           child: Row(
             children: [
-              Obx(() => ItemFields(label: 'Price', text: dashboardController.itemPrice.value.toString())),
+              Obx(() => ItemFields(
+                  label: 'Price',
+                  text: dashboardController.itemPrice.value)),
               const SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.all(10),
@@ -35,20 +42,27 @@ class InputSection extends StatelessWidget {
                       padding: const EdgeInsets.all(17),
                       decoration: const BoxDecoration(
                         color: Colors.black87,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            bottomLeft: Radius.circular(10)),
                       ),
-                      child: const Text('Quantity', style: TextStyle(color: Colors.white)),
+                      child: const Text('Quantity',
+                          style: TextStyle(color: Colors.white)),
                     ),
                     Container(
                       width: 290,
-                      padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 48),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2, horizontal: 48),
                       decoration: const BoxDecoration(
                         color: Colors.white70,
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
                       ),
                       child: Obx(
                         () => TextField(
-                          controller: dashboardController.quantityInputController.value,
+                          controller:
+                              dashboardController.quantityInputController.value,
                           textAlign: TextAlign.center,
                           decoration: InputDecoration(
                               suffixIcon: Padding(
@@ -64,9 +78,18 @@ class InputSection extends StatelessWidget {
                                       color: Colors.black87,
                                     ),
                                     onPressed: () {
-                                      var currentQuantity = int.parse(dashboardController.quantityInputController.value.text);
-                                      dashboardController.quantityInputController.value.text = (++currentQuantity).toString();
-                                      dashboardController.itemQuantity.value = currentQuantity;
+                                      var currentQuantity = int.parse(
+                                          dashboardController
+                                              .quantityInputController
+                                              .value
+                                              .text);
+                                      dashboardController
+                                              .quantityInputController
+                                              .value
+                                              .text =
+                                          (++currentQuantity).toString();
+                                      dashboardController.itemQuantity.value =
+                                          currentQuantity;
                                     },
                                   ),
                                 ),
@@ -83,11 +106,20 @@ class InputSection extends StatelessWidget {
                                     ),
                                     color: Colors.black87,
                                     onPressed: () {
-                                      var currentQuantity = int.parse(dashboardController.quantityInputController.value.text);
+                                      var currentQuantity = int.parse(
+                                          dashboardController
+                                              .quantityInputController
+                                              .value
+                                              .text);
                                       if (currentQuantity > 1) {
-                                        dashboardController.quantityInputController.value.text = (--currentQuantity).toString();
+                                        dashboardController
+                                                .quantityInputController
+                                                .value
+                                                .text =
+                                            (--currentQuantity).toString();
                                       }
-                                      dashboardController.itemQuantity.value = currentQuantity;
+                                      dashboardController.itemQuantity.value =
+                                          currentQuantity;
                                     },
                                   ),
                                 ),
@@ -111,10 +143,13 @@ class InputSection extends StatelessWidget {
               height: 64,
               decoration: const BoxDecoration(
                 color: Colors.black87,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    bottomLeft: Radius.circular(10)),
               ),
               child: const Align(
-                child: Text('Description', style: TextStyle(color: Colors.white)),
+                child:
+                    Text('Description', style: TextStyle(color: Colors.white)),
               ),
             ),
             Container(
@@ -123,7 +158,9 @@ class InputSection extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               decoration: const BoxDecoration(
                 color: Colors.white70,
-                borderRadius: BorderRadius.only(topRight: Radius.circular(10), bottomRight: Radius.circular(10)),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    bottomRight: Radius.circular(10)),
               ),
               child: Obx(() => Text(
                     dashboardController.itemDescription.value.toString(),

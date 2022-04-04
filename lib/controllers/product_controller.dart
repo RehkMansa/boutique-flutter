@@ -15,7 +15,16 @@ class ProductController extends GetxController {
   var brandDropdown = ['--Select brand--'].obs;
   var subcategoryDropdown = ['--Select subcategory--'].obs;
 
-  Future add({name, productId, price, brand, category, subcategory, quantity, quantitySold, description}) async {
+  Future add(
+      {name,
+      productId,
+      price,
+      brand,
+      category,
+      subcategory,
+      quantity,
+      quantitySold,
+      description}) async {
     try {
       var data = Product.addProductMap(
           name: name!,
@@ -27,13 +36,17 @@ class ProductController extends GetxController {
           quantity: quantity,
           quantitySold: quantitySold,
           description: description);
-      var dbProduct = await db.count(table: Str.productTable, where: {'product_id': productId});
+      var dbProduct = await db
+          .count(table: Str.productTable, where: {'product_id': productId});
       dnd(data);
       dnd(dbProduct);
       if (dbProduct > 0) {
         actionAlert(
           'A product with this id already exist.\nWill you like to update the quantity of this item?',
-          confirmAction: () async => await updateProduct(price: data['price'], quantity: data['quantity'], productId: data['product_id']),
+          confirmAction: () async => await updateProduct(
+              price: data['price'],
+              quantity: data['quantity'],
+              productId: data['product_id']),
         );
       } else if (name.isEmpty || price == null || quantity == null) {
         errorDialog('All fields with (*) are mandatory');
@@ -67,7 +80,10 @@ class ProductController extends GetxController {
       data['quantity_sold'] = quantitySold + dbItem['quantity_sold'];
       data['quantity_remaining'] = dbItem['quantity_remaining'] - quantitySold;
     }
-    await db.update(table: Str.productTable, updateData: data, where: {'product_id': productId});
+    await db.update(
+        table: Str.productTable,
+        updateData: data,
+        where: {'product_id': productId});
   }
 
   Future fetch() async {

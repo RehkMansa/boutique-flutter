@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:boutique/models/order.dart';
+import 'package:boutique/models/ordered_product.dart';
 import 'package:boutique/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,6 +46,7 @@ class DashboardController extends GetxController {
   var selectedCard = false.obs;
 
   var selectedTransfer = false.obs;
+  var paymentMethodString = ''.obs;
 
   void clearText() {
     fieldText.value.clear();
@@ -60,6 +63,7 @@ class DashboardController extends GetxController {
   }
 
   void printToggle({required bool value}) {
+    //push to database
     togglePrint.value = value;
   }
 
@@ -105,7 +109,7 @@ class DashboardController extends GetxController {
     itemObject.value = object;
     itemId.value = itemObject.value.productId!;
     itemName.value = itemObject.value.name!;
-    itemPrice.value = itemObject.value.price.toString();
+    itemPrice.value = Utils.numberFormat.format(itemObject.value.price);
     itemDescription.value = itemObject.value.description.toString();
     clearText();
   }
@@ -119,7 +123,8 @@ class DashboardController extends GetxController {
           errorDialog('Select an item to add to receipt list');
         } else {
           if (receiptItems.containsKey(itemObject.value.productId)) {
-            errorDialog('Active item has already been added to the receipt list');
+            errorDialog(
+                'Active item has already been added to the receipt list');
           } else {
             var mp = {};
             mp['quantity'] = itemQuantity.toString();
@@ -130,7 +135,8 @@ class DashboardController extends GetxController {
             int totalPrice = 0;
             receiptItemsList.forEach((element) {
               if (element.toString() != 'item') {
-                totalPrice += (int.parse(element['quantity']) * element['price']).toInt();
+                totalPrice +=
+                    (int.parse(element['quantity']) * element['price']).toInt();
               }
             });
 
@@ -167,6 +173,7 @@ class DashboardController extends GetxController {
   }
 
   void selectPaymentMethod(String s) {
+    paymentMethodString.value = s;
     paymentMade.value = true;
     switch (s) {
       case 'transfer':
@@ -206,5 +213,44 @@ class DashboardController extends GetxController {
     itemDescription.value = '...';
     itemQuantity.value = 1;
     quantityInputController.value.text = 1.toString();
+  }
+
+  //add
+
+  Future addOrder() async {
+    List<Map<String, dynamic>> orderedProductList = [];
+    var totalPrice = 0;
+    var orderId = Utils.generateDbId();
+    receiptItemsList.value.forEach((element) {
+      if (element.toString() != 'item') {
+        dnd(element);
+        totalPrice += int.parse(element['price'].toString()) *
+            (int.parse(element['quantity'].toString()));
+        var map = OrderedProduct.addOrderedProductMap(
+          order: orderId.toString(),
+          amount: element['price'],
+          quantity: int.parse(element['quantity'].toString()),
+          product: element['id'].toString(),
+        );
+        orderedProductList.add(map);
+      }
+    });
+    dnd(orderedProductList);
+
+    await db.insert(
+        table: Str.orderTable,
+        insertData: Order.addOrderMap(
+            id: orderId.toString(),
+            paid: 1,
+            paymentMethod: paymentMethodString.value,
+            amount: totalPrice));
+
+    orderedProductList.forEach((element) {
+      db.insert(table: Str.orderedProductTable, insertData: element);
+    });
+
+    /* await db.insertAll(
+        table: Str.orderedProductTable,
+        insertData: orderedProductList as List<Map<String, dynamic>>); */
   }
 }

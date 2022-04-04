@@ -26,7 +26,7 @@ class Products extends GetView<ProductController> {
           Container(
             child: Row(
               children: [
-                const SideBar(),
+                SideBar(),
                 Expanded(
                   child: Container(
                     height: double.infinity,

@@ -34,7 +34,7 @@ class CreateProduct extends GetView<ProductController> {
       body: Container(
         child: Row(
           children: [
-            const SideBar(),
+            SideBar(),
             Expanded(
               child: Container(
                 height: double.infinity,
@@ -63,7 +63,7 @@ class CreateProduct extends GetView<ProductController> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(child: ProductInput(hint: 'Item Id', label: 'Item Id', controller: idCon)),
+                          Expanded(child: ProductInput(hint: 'Product Id', label: 'Item Id', controller: idCon)),
                           const SizedBox(width: 10),
                           Expanded(child: ProductInput(hint: 'Enter item name', label: 'Name of item', controller: nameCon)),
                         ],
