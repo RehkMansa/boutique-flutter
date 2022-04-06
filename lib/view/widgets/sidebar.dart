@@ -29,27 +29,27 @@ class DashboardSideBar extends StatelessWidget {
             //crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               sideBarIcon('home.png', onTap: () {
-                Get.to(Dashboard());
+                Get.offAll(() => Dashboard());
                 activePage.value = 'dashboard';
               }),
               sideBarIcon('createproduct.png', onTap: () {
-                Get.to(CreateProduct());
+                Get.offAll(() => CreateProduct());
                 activePage.value = 'createProduct';
               }),
               sideBarIcon('product.png', onTap: () {
-                Get.to(Products());
+                Get.offAll(() => Products());
                 activePage.value = 'products';
               }),
               sideBarIcon('brand.png', onTap: () {
-                Get.to(Brands());
+                Get.offAll(() => Brands());
                 activePage.value = 'brands';
               }),
               sideBarIcon('categories.png', onTap: () {
-                Get.to(Categories());
+                Get.offAll(() => Categories());
                 activePage.value = 'categories';
               }),
               sideBarIcon('subcategory.png', onTap: () {
-                Get.to(Categories());
+                Get.offAll(() => Categories());
                 activePage.value = 'subcategories';
               }),
               // sideBarIcon('back.png', onTap: Get.off(Dashboard())),

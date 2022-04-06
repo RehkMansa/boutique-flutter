@@ -119,6 +119,43 @@ class Product {
     return data;
   }
 
+  static Map<String, dynamic> addProductHistoryMap({
+    required String name,
+    String? description,
+    String? productId,
+    String? category,
+    String? subcategory,
+    String? brand,
+    required dynamic price,
+    required dynamic quantity,
+  }) {
+
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = Utils.generateDbId();
+    data['name'] = name;
+    data['description'] = description ??= '';
+    data['product_id'] = productId;
+    data['category'] = category ??= '';
+    data['subcategory'] = subcategory ??= '';
+    data['brand'] = brand ??= '';
+    data['price'] = price;
+    data['quantity'] = quantity;
+    return data;
+  }
+  
+  static Map<String, dynamic> addPriceHistoryMap({
+    required String name,
+    required dynamic price,
+    required dynamic productId,
+  }) {
+
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = Utils.generateDbId();
+    data['price'] = price;
+    data['product'] = productId;
+    return data;
+  }
+
   static Product? getProduct(dynamic dataObject) {
     return dataObject != null ? Product.fromJson(dataObject) : null;
   }
@@ -149,7 +186,8 @@ class Product {
   static String createTableSQL() {
     String sql = 'CREATE TABLE ';
     sql += table();
-    sql += ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, name TEXT, description	TEXT, product_id TEXT, category TEXT, subcategory TEXT, brand TEXT,'
+    sql +=
+        ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, name TEXT, description	TEXT, product_id TEXT, category TEXT, subcategory TEXT, brand TEXT,'
         ' quantity_remaining INTEGER, quantity_sold INTEGER, has_barcode INTEGER, sold_out INTEGER, active INTEGER, created_at TEXT, updated_at TEXT)';
     return sql;
   }
@@ -157,7 +195,8 @@ class Product {
   static String createHistorySQL() {
     String sql = 'CREATE TABLE ';
     sql += Str.productHistoryTable;
-    sql += ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, name TEXT, description	TEXT, product_id TEXT, category TEXT, subcategory TEXT, brand TEXT,'
+    sql +=
+        ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, name TEXT, description	TEXT, product_id TEXT, category TEXT, subcategory TEXT, brand TEXT,'
         ' has_barcode INTEGER, created_at TEXT, updated_at TEXT)';
     return sql;
   }
@@ -165,7 +204,8 @@ class Product {
   static String priceHistorySQL() {
     String sql = 'CREATE TABLE ';
     sql += Str.priceHistoryTable;
-    sql += ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, product TEXT, price INTEGER, created_at TEXT, updated_at TEXT)';
+    sql +=
+        ' (_id	INTEGER PRIMARY KEY AUTOINCREMENT, id TEXT, product TEXT, price INTEGER, created_at TEXT, updated_at TEXT)';
     return sql;
   }
 
@@ -175,7 +215,8 @@ class Product {
   }
 
   static String getTimestampString() {
-    var dt = DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecondsSinceEpoch);
+    var dt = DateTime.fromMillisecondsSinceEpoch(
+        DateTime.now().millisecondsSinceEpoch);
     // DateForma
     // var d12 = DateUtils();//.format(dt);
     return 'd12';

@@ -64,7 +64,7 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(Dashboard());
+                    Get.offAll(() => Dashboard());
                   },
                   child: Row(
                     children: const [
@@ -101,7 +101,7 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(Products());
+                    Get.offAll(() => Products());
                     DashboardSideBar.activePage.value = 'products';
                   },
                   child: Row(
@@ -146,7 +146,7 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(CreateProduct());
+                    Get.offAll(() => CreateProduct());
                     DashboardSideBar.activePage.value = 'createProduct';
                   },
                   child: Row(
@@ -192,7 +192,7 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(Brands());
+                    Get.offAll(() => Brands());
                     DashboardSideBar.activePage.value = 'brands';
                   },
                   child: Row(
@@ -236,7 +236,7 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(Categories());
+                    Get.offAll(() => Categories());
                     DashboardSideBar.activePage.value = 'categories';
                   },
                   child: Row(
@@ -282,7 +282,7 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(Subcategories());
+                    Get.offAll(() => (Subcategories()));
                     DashboardSideBar.activePage.value = 'subcategories';
                   },
                   child: Row(
@@ -328,14 +328,14 @@ class SideBar extends StatelessWidget {
                 ),
                 child: InkWell(
                   onTap: () {
-                    Get.offAll(InventoryScreen());
+                    Get.offAll(() => (InventoryScreen()));
                     DashboardSideBar.activePage.value = 'inventory';
                   },
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.inventory_2_outlined,
+                        Icons.stacked_bar_chart,
                         size: 28,
                         color:
                             (DashboardSideBar.activePage.value != 'inventory')
