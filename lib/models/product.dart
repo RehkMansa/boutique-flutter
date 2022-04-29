@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import '../res/strings.dart';
 import '../utils/utils.dart';
 
@@ -38,22 +40,24 @@ class Product {
   });
 
   Product.fromJson(var json) {
-    name = json['name'];
-    description = json['description'];
-    productId = json['product_id'];
-    category = json['category'];
-    subcategory = json['subcategory'];
-    brand = json['brand'];
-    price = json['price'];
-    quantity = json['quantity'];
-    quantityRemaining = json['quantity_remaining'];
-    quantitySold = json['quantity_sold'];
-    hasBarcode = json['has_barcode'];
-    soldOut = json['sold_out'];
-    active = json['active'];
-    id = json['id'];
-    // createdAt = json['created_at'];
-    // updatedAt = json['updated_at'];
+    if (json.runtimeType != Null && json.toString() != '') {
+      name = json['name'];
+      description = json['description'];
+      productId = json['product_id'];
+      category = json['category'];
+      subcategory = json['subcategory'];
+      brand = json['brand'];
+      price = json['price'];
+      quantity = json['quantity'];
+      quantityRemaining = json['quantity_remaining'];
+      quantitySold = json['quantity_sold'];
+      hasBarcode = json['has_barcode'];
+      soldOut = json['sold_out'];
+      active = json['active'];
+      id = json['id'];
+      createdAt = DateFormat.yMMMd().format(json['created_at']);
+      updatedAt = DateFormat.yMMMd().format(json['updated_at']);
+    }
   }
 
   Product.fromJsonToReceipt(var json) {
@@ -129,7 +133,6 @@ class Product {
     required dynamic price,
     required dynamic quantity,
   }) {
-
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = Utils.generateDbId();
     data['name'] = name;
@@ -142,13 +145,12 @@ class Product {
     data['quantity'] = quantity;
     return data;
   }
-  
+
   static Map<String, dynamic> addPriceHistoryMap({
     required String name,
     required dynamic price,
     required dynamic productId,
   }) {
-
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = Utils.generateDbId();
     data['price'] = price;

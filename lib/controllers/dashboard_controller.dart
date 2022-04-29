@@ -248,9 +248,5 @@ class DashboardController extends GetxController {
     orderedProductList.forEach((element) {
       db.insert(table: Str.orderedProductTable, insertData: element);
     });
-
-    /* await db.insertAll(
-        table: Str.orderedProductTable,
-        insertData: orderedProductList as List<Map<String, dynamic>>); */
   }
 }

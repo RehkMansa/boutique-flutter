@@ -2,10 +2,21 @@ import 'package:flutter/material.dart';
 
 class ScreenTitle extends StatelessWidget {
   final String title;
+  final String text;
+  final IconData icon;
+  final double? textSize;
   final Function()? buttonAction;
   final bool showButton;
 
-  const ScreenTitle({Key? key, this.title = '', this.buttonAction, this.showButton = false}) : super(key: key);
+  const ScreenTitle({
+    Key? key,
+    this.title = '',
+    this.buttonAction,
+    this.showButton = false,
+    this.textSize,
+    this.text = 'Add', 
+    this.icon = Icons.add,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +30,11 @@ class ScreenTitle extends StatelessWidget {
           flex: 2,
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.w700,
               letterSpacing: 2,
-              fontSize: 38,
+              fontSize: (textSize == null) ? 38 : textSize,
             ),
           ),
         ),
@@ -38,8 +49,8 @@ class ScreenTitle extends StatelessWidget {
                 width: 120,
                 child: ElevatedButton.icon(
                   onPressed: buttonAction,
-                  label: const Text('Add'),
-                  icon: const Icon(Icons.add),
+                  label: Text(text),
+                  icon:  Icon(icon),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),

@@ -4,6 +4,7 @@ import 'package:boutique/view/screens/categories.dart';
 import 'package:boutique/view/screens/create_product.dart';
 import 'package:boutique/view/screens/dashboard.dart';
 import 'package:boutique/view/screens/products.dart';
+import 'package:boutique/view/screens/subcategories.dart';
 import 'package:boutique/view/screens/widgets/dashboard/add_brand.dart';
 import 'package:boutique/view/screens/widgets/dashboard/add_category.dart';
 import 'package:flutter/material.dart';
@@ -11,14 +12,14 @@ import 'package:get/get.dart';
 
 class DashboardSideBar extends StatelessWidget {
   static final activePage = ''.obs;
-  DashboardSideBar({Key? key}) : super(key: key);
+  const DashboardSideBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       width: 72,
-      margin: EdgeInsets.only(right: 30),
+      margin: const EdgeInsets.only(right: 30),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         color: Colors.black87,
@@ -34,7 +35,7 @@ class DashboardSideBar extends StatelessWidget {
               }),
               sideBarIcon('createproduct.png', onTap: () {
                 Get.offAll(() => CreateProduct());
-                activePage.value = 'createProduct';
+                activePage.value = 'create product';
               }),
               sideBarIcon('product.png', onTap: () {
                 Get.offAll(() => Products());
@@ -49,7 +50,7 @@ class DashboardSideBar extends StatelessWidget {
                 activePage.value = 'categories';
               }),
               sideBarIcon('subcategory.png', onTap: () {
-                Get.offAll(() => Categories());
+                Get.offAll(() => Subcategories());
                 activePage.value = 'subcategories';
               }),
               // sideBarIcon('back.png', onTap: Get.off(Dashboard())),

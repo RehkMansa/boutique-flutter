@@ -1,4 +1,5 @@
 import 'package:boutique/utils/utils.dart';
+import 'package:intl/intl.dart';
 
 import '../res/strings.dart';
 
@@ -23,8 +24,8 @@ class Order {
     amount = json['amount'];
     paid = json['paid'];
     paymentMethod = json['payment_method'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = DateFormat.yMMMd().format(json['created_at']);
+    updatedAt = DateFormat.jm().format(json['updated_at']);
   }
 
   Map<String, dynamic> toJson() {

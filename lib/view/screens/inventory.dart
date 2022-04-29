@@ -21,7 +21,6 @@ class InventoryScreen extends GetView<InventoryController> {
         alignment: Alignment.center,
         child: Container(
           height: double.infinity,
-          // margin: const EdgeInsets.all(35),
           child: Row(
             children: [
               SideBar(),
@@ -29,7 +28,6 @@ class InventoryScreen extends GetView<InventoryController> {
                 flex: 9,
                 child: Container(
                   width: Get.width,
-                  // padding: EdgeInsets.only(left: 30),
                   height: double.infinity,
                   decoration: const BoxDecoration(
                     color: Colors.white,

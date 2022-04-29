@@ -1,11 +1,13 @@
+import 'package:boutique/models/product.dart';
 import 'package:boutique/utils/utils.dart';
+import 'package:intl/intl.dart';
 
 import '../res/strings.dart';
 
 class OrderedProduct {
   String? id;
   String? order;
-  String? product;
+  dynamic product;
   int? quantity;
   int? amount;
   String? createdAt;
@@ -26,8 +28,17 @@ class OrderedProduct {
     product = json['product'];
     quantity = json['quantity'];
     amount = json['amount'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    createdAt = DateFormat.yMMMd().format(json['created_at']);
+    updatedAt = DateFormat.jm().format(json['updated_at']);
+  }
+  OrderedProduct.fromJson2(Map<String, dynamic> json) {
+    id = json['id'];
+    order = json['order'];
+    product = (Product.fromJson(json['product'])).toString();
+    quantity = json['quantity'];
+    amount = json['amount'];
+    createdAt = DateFormat.yMMMd().format(json['created_at']);
+    updatedAt = DateFormat.jm().format(json['updated_at']);
   }
 
   Map<String, dynamic> toJson() {

@@ -2,6 +2,7 @@ import 'package:boutique/controllers/brand_controller.dart';
 import 'package:boutique/controllers/category_controller.dart';
 import 'package:boutique/controllers/product_controller.dart';
 import 'package:boutique/view/screens/dashboard.dart';
+import 'package:boutique/view/screens/records.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pos_printer_manager/pos_printer_manager.dart';
@@ -23,7 +24,7 @@ Future<void> main() async {
 
   runApp(
     GetMaterialApp(
-      home: Dashboard(),
+      home: Records(),
       debugShowCheckedModeBanner: false,
     ),
   );
